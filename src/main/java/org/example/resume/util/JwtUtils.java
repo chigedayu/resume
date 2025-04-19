@@ -17,7 +17,7 @@ public class JwtUtils {
     // 常量: 加密用的密钥 (盐值) >= 256位的随机字符串
     private static final String SECRET_KEY = "abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefg";
     // 常量: 自定义短期令牌过期时间
-    private static final long ACCESS_TOKEN_EXPIRE = 15 * 60 * 1000; // 15分钟（单位：毫秒）
+    private static final long ACCESS_TOKEN_EXPIRE = 1500 * 60 * 1000; // 15分钟（单位：毫秒）
     // 常量: 自定义长期令牌过期时间
     private static final long REFRESH_TOKEN_EXPIRE = 7 * 24 * 60 * 60 * 1000; // 7天
 

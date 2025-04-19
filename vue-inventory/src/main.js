@@ -5,6 +5,7 @@ import './css/style.css';
 import './css/pink_skin.css';
 import './css/blue_skin.css';
 import './css/gray_skin.css';
+import './css/style2.css';
 
 Vue.config.productionTip = false
 // 导入ElementUI组件库

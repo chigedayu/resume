@@ -98,6 +98,12 @@ export default {
   z-index: 100;
 }
 
+@media print {
+  .navbar {
+    display: none !important;
+  }
+}
+
 .logo {
   font-size: 24px;
   font-weight: bold;

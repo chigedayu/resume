@@ -6,7 +6,6 @@
     <meta name=viewport content="width=device-width,initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
     <meta name="format-detection" content="email=no"/>
-    <title>STAGE在线简历生成器</title>
     <link rel="shortcut icon" href="./static/favicon.ico">
 </head>
 <body>
@@ -17,15 +16,6 @@
         v-on={clickSaveBtn,print,clickLogout}
         @change-skin-seen="changeSkinSeen = !changeSkinSeen">
         </left-nav>
-
-        <login
-        v-if="isLogin"
-        v-bind={loginpartSeen,login,signup,isLogin}
-        v-on={onSignup}
-        @logintrue="loginpartSeen=true"
-        @loginfalse="loginpartSeen=false"
-        @close="isLogin = false;loginpartSeen=true">
-        </login>
 
         <change-skin
         v-if="changeSkinSeen"
@@ -39,9 +29,7 @@
          </resume>
     </div>
 
-    <footer
-    :class="resume.skinColor" class=github-footer><i class="iconfont icon-link"></i>傲娇地使用 <a class=footer-link href=https://github.com/harry0071/resume-generator target=_blank> STAGE在线简历编辑器 </a> 生成简历
-    </footer>
+    
     
 </div>
 <script>

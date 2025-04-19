@@ -1,9 +1,17 @@
 <template>
   <div class="history-resumes-container">
-    <h2>历史简历</h2>
-    <div v-for="resume in historyResumes" :key="resume.id">
-      <button @click="loadResume(resume)">{{ resume.resumeName }}</button>
-    </div>
+    <h2 class="history-title">历史简历</h2>
+    <el-row :gutter="20">
+      <el-col v-for="resume in historyResumes" :key="resume.id" :span="6">
+        <el-button 
+          type="primary" 
+          @click="loadResume(resume)"
+          class="resume-button"
+        >
+          {{ resume.resumeName }}
+        </el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -27,9 +35,8 @@ export default {
           username
         }
       })
-          .then(response => {
-            console.log('获取到的历史简历数据:', response.data); // 打印数据
-            this.historyResumes = response.data;
+          .then(data => {
+            this.historyResumes = data;
           })
           .catch(error => {
             console.error('获取历史简历失败', error);
@@ -54,9 +61,22 @@ export default {
 <style scoped>
 .history-resumes-container {
   padding: 20px;
+  margin-top: 60px;
 }
 
-button {
-  margin: 5px;
+.history-title {
+  font-size: 28px;
+  color: #409EFF;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.resume-button {
+  margin-bottom: 15px;
+  width: 100%;
+  height: 80px;
+  border-radius: 0;
+  font-size: 18px;
 }
 </style>

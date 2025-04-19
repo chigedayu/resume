@@ -115,6 +115,7 @@
     <div class="button-container print-hide">
       <el-button @click="downloadResume">下载</el-button>
       <el-button @click="saveResume">保存</el-button>
+      <el-button @click="previewResume">预览</el-button>
     </div>
   </div>
 
@@ -124,6 +125,11 @@
 
 <script>
 import axios from "axios";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import "../css/style2.css";
+
+
 
 export default {
   props: ['mode', 'resume'],
@@ -141,8 +147,42 @@ export default {
   },
   methods: {
     downloadResume() {
-      // 调用浏览器的打印功能
-      window.print();
+      // 使用html2canvas和jsPDF生成PDF并下载
+      const element = document.querySelector('.a4-container');
+      html2canvas(element, {
+        scale: 2,
+        logging: false,
+        useCORS: true
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('resume.pdf');
+      });
+    },
+    async previewResume() {
+      // 使用html2canvas和jsPDF生成PDF预览
+      const element = document.querySelector('.a4-container');
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        logging: false,
+        useCORS: true
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdfBlob = pdf.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl, '_blank');
     },
     // saveResume() {
     //   console.log('this.resume:', this.resume);
@@ -180,40 +220,37 @@ export default {
       if (this.loading) {
         return;
       }
-      const template = this.$route.query.template;
-      const username = localStorage.getItem('username');
-      const resume = this.resume;
-      const requestData = {
-        username,
-        template: template,
-        resume: resume
-      };
-      this.loading = true;
-      this.$http.post("/resume/saveResume", requestData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-          .then(response => {
-            // 请求成功处理逻辑
-            console.log('简历保存成功');
-            this.loading = false;
-          })
-          .catch(error => {
-            // 请求失败处理逻辑
-            console.error('简历保存失败', error);
-            this.loading = false;
-          });
-      console.log('保存简历');
+      
+      this.$prompt('请输入简历名称', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^[\s\S]{1,50}$/,
+        inputErrorMessage: '简历名称不能为空且不超过50个字符'
+      }).then(({ value }) => {
+        const template = this.$route.query.template;
+        const username = localStorage.getItem('username');
+        const resume = this.resume;
+        const requestData = {
+          username,
+          template: template,
+          resume: resume,
+          resumeName: value
+        };
+        this.loading = true;
+        this.$http.post("/resume/saveResume", requestData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+      }).catch(() => {
+        // 用户取消输入
+        console.log('用户取消保存');
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-.a4-container {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
+
 </style>

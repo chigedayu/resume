@@ -1,4 +1,12 @@
 module.exports = {
+  configureWebpack: {
+    resolve: {
+      fallback: {
+        "vm": require.resolve("vm-browserify"),
+        "stream": require.resolve("stream-browserify")
+      }
+    }
+  },
     devServer: {
         // 启动项目时监听80端口
         port: 88,

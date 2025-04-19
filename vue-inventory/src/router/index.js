@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import LoginPage from "@/views/LoginPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
-import HomePage from "@/views/HomePage.vue";
 import HomeView from "@/views/HomeView.vue";
 import ChangeSkin from "@/views/TemplateSelectView.vue";
 import TemplateSelectView from "@/views/TemplateSelectView.vue";
@@ -16,7 +15,7 @@ const routes = [
   { path: '/login', component: LoginPage },
   { path: '/register', component: RegisterPage },
   // 主页路由，没有设置 requiresAuth 标识
-  { path: '/', component: HomeView },
+  { path: '/', component: HomeView, name: 'Home' },
   { path: '/template/select', component: TemplateSelectView },
   { path: '/resume', component: Resume }, // 添加简历编辑页路由
   { path: '/user/resumes', component: HistoryResumes } // 添加历史简历页路由

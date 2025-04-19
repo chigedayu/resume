@@ -36,6 +36,7 @@ public class ResumeController {
 
     @PostMapping("/saveResume")
     public Result<?> saveResume(@RequestBody ResumeSaveRequest request) {
+        String resumeName = request.getResumeName();
         String username = request.getUsername();
         String template = request.getTemplate();
         Object resume = request.getResume();
@@ -53,7 +54,8 @@ public class ResumeController {
         // 创建 ResumeSave 对象
         ResumeSave resumeSave = new ResumeSave();
         resumeSave.setUserId(user.getUserId());
-        resumeSave.setResumeName(template);
+        resumeSave.setTemplate(template);
+        resumeSave.setResumeName(resumeName);
         // 这里需要将 Resume 对象转换为 JSON 字符串存储
         ObjectMapper objectMapper = new ObjectMapper();
         try {

@@ -14,4 +14,5 @@ public class ResumeSave implements Serializable {
     private Integer userId;
     private String resumeName;
     private String resumeJson;
+    private String template;
 }
